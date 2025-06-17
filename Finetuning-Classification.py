@@ -20,6 +20,8 @@ from trl import SFTTrainer
 import src.document as Document
 from src.config import cache_dir
 
+import path 
+
 pd.options.display.max_rows = 20
 pd.options.display.max_columns = 500
 ppsetup = pprint.PrettyPrinter(indent=4)
@@ -28,8 +30,8 @@ tqdm.pandas()
 wandb.init(mode="disabled")
 warnings.filterwarnings("ignore")
 
-print(torch.cuda.current_device())
-print(torch.cuda.get_device_name(torch.cuda.current_device()))
+# print(torch.cuda.current_device())
+# print(torch.cuda.get_device_name(torch.cuda.current_device()))
 
 PROGRAM_PATH = os.path.abspath(os.getcwd())
 SRC_PATH = os.path.join(PROGRAM_PATH, "assets")
@@ -40,20 +42,20 @@ annotations_train_classification_PATH = os.path.join(
 )  # with data [150:]
 
 # base mistral model used for the fine tune
-model_id = "models/mistralai_Mistral-7B-Instruct-v0.2"
+model_id = path.base_model_dir
 
 # output lora model path
 peft_model_path = "models/Mistral-7B-Instruct-v0.2-Pescu-faiss-clasify-lora_2/"
 
 # The first element of sys.argv is the input parquet file generated from faiss_classification_data_preparation.py
-if len(sys.argv) > 1:
-    annotations_train_classification_PATH = sys.argv[1]
-# The second element of sys.argv is the base model_id path or name
-if len(sys.argv) > 2:
-    model_id = sys.argv[2]
-# The third element of sys.argv is the output lora model path
-if len(sys.argv) > 3:
-    peft_model_path = sys.argv[3]
+# if len(sys.argv) > 1:
+#     annotations_train_classification_PATH = sys.argv[1]
+# # The second element of sys.argv is the base model_id path or name
+# if len(sys.argv) > 2:
+#     model_id = sys.argv[2]
+# # The third element of sys.argv is the output lora model path
+# if len(sys.argv) > 3:
+#     peft_model_path = sys.argv[3]
 
 # i.e. python Finetuning-Classification.py backup/annotations_extended_for_classification.gzip models/mistralai_Mistral-7B-Instruct-v0.2 models/Mistral-7B-Instruct-v0.2-Pescu-faiss-clasify-lora_2/
 
