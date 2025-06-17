@@ -7,7 +7,7 @@ from pathlib import Path
 def run_command(name, command):
     print(f"\n[Task: {name}]")
     print(f"Running: {' '.join(command)}")
-    result = subprocess.run(command)
+    result = subprocess.run(" ".join(command))
     if result.returncode != 0:
         print(f"\n❌ Error in task: {name}")
         sys.exit(1)
@@ -32,8 +32,8 @@ tasks = [
         "name": "Prepare FAISS DB",
         "cmd": [
             "python", "faiss_db_preparation.py",
-            "--notes-path", TRAIN_NOTE_PATH,
-            "--annotations-path", TRAIN_ANNOTATION_PATH,
+            "--notes-path", TRAIN_NOTE_PATH.as_posix(),
+            "--annotations-path", TRAIN_ANNOTATION_PATH.as_posix(),
             "--terminologies-path", "assets/dataflattened_terminology.csv",
             "--terminologies-path-syn", "assets/newdict_snomed.txt",
             "--terminologies-path-syn-extended", "assets/newdict_snomed_extended.txt",
@@ -45,14 +45,14 @@ tasks = [
     {
         "name": "Prepare Data for Classification with FAISS",
         "cmd": [
-            "python", "faiss_classification_data_preparation.py",
-            "data/mimic-iv_notes_training_set.csv",
-            "assets/train_annotations.csv",
-            "assets/newdict_snomed_extended-150.txt",
-            "assets/faiss_index_constitution_all-MiniLM-L12-v2_finetuned-150",
-            "backup/annotations_extended_for_classification.gzip",
-            "mistralai/Mistral-7B-Instruct-v0.2",
-            "sentence-transformers/all-MiniLM-L12-v2"
+            "python", f"{WORKSPACE_DIR.as_posix()}/faiss_classification_data_preparation.py",
+            #  TRAIN_NOTE_PATH.as_posix(),
+            # TRAIN_ANNOTATION_PATH.as_posix(),
+            # "assets/newdict_snomed_extended.txt",
+            # "assets/faiss_index_constitution_all-MiniLM-L12-v2_finetuned",
+            # "backup/annotations_extended_for_classification.gzip",
+            # "mistralai/Mistral-7B-Instruct-v0.2",
+            # "sentence-transformers/all-MiniLM-L12-v2"
         ]
     },
     {
@@ -80,5 +80,5 @@ tasks = [
 ]
 
 # Execute tasks
-for task in tasks:
+for task in tasks[1:]:
     run_command(task["name"], task["cmd"])

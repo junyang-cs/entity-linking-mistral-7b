@@ -9,22 +9,24 @@ from src.config import cache_dir
 import src.document as Document
 import src.vectorDB as LoadVectorize
 
-PROGRAM_PATH = os.path.abspath(os.getcwd())
+import path as path 
+
+PROGRAM_PATH = path.WORKSPACE_DIR
 ASSETS_PATH = os.path.join(PROGRAM_PATH, "assets")
 DATA_ROOT = os.path.join(PROGRAM_PATH, "data")
 cache_folder = os.path.join(PROGRAM_PATH, "backup")
 
 # training notes path
-NOTES_PATH = os.path.join(DATA_ROOT, "mimic-iv_notes_training_set.csv")
+NOTES_PATH = path.TRAIN_NOTE_PATH
 
 # train annotations path
-ANNOTATIONS_PATH = os.path.join(ASSETS_PATH, "train_annotations.csv")
+ANNOTATIONS_PATH = path.TRAIN_ANNOTATION_PATH
 
 # add faiss docs path
-terminologies_path_extended = os.path.join(ASSETS_PATH, "newdict_snomed_extended-150.txt")
+terminologies_path_extended = os.path.join(ASSETS_PATH, "newdict_snomed_extended.txt")
 
 # faiss index path
-faiss_index = os.path.join(ASSETS_PATH, "faiss_index_constitution_all-MiniLM-L12-v2_finetuned-150")
+faiss_index = os.path.join(ASSETS_PATH, "faiss_index_constitution_all-MiniLM-L12-v2_finetuned")
 
 # OUTPUT FILE used for fine fune the classification model
 ANNOTATIONS_train_classification_PATH = os.path.join(
@@ -32,33 +34,11 @@ ANNOTATIONS_train_classification_PATH = os.path.join(
 )
 
 # base mistral model used for the fine tune
-model_id = "mistralai/Mistral-7B-Instruct-v0.2"
+model_id =path.base_model_dir
 # sentence-transformers model for faiss embeddings
-model_path_faiss = "sentence-transformers/all-MiniLM-L12-v2"
+model_path_faiss = path.sentence_transformers_dir
 # cache folder for sentence-transformers model
 model_path_faiss_cache = cache_dir / "hf"
-
-# The first element of sys.argv is the notes path
-if len(sys.argv) > 1:
-    NOTES_PATH = sys.argv[1]
-# The second element of sys.argv is the train annotations path
-if len(sys.argv) > 2:
-    ANNOTATIONS_PATH = sys.argv[2]
-# The third element of sys.argv faiss docs path
-if len(sys.argv) > 3:
-    terminologies_path_extended = sys.argv[3]
-# The fourth element of sys.argv is the faiss index path
-if len(sys.argv) > 4:
-    faiss_index = sys.argv[4]
-# The fifth element of sys.argv is the output file path
-if len(sys.argv) > 5:
-    ANNOTATIONS_train_classification_PATH = sys.argv[5]
-# The sixth element of sys.argv is the base model_id path or name
-if len(sys.argv) > 6:
-    model_id = sys.argv[6]
-# The seventh element of sys.argv is the sentence transformers path used for faiss embeddings
-if len(sys.argv) > 7:
-    model_path_faiss = sys.argv[7]
 
 tokenizer = AutoTokenizer.from_pretrained(model_id, cache_dir=model_path_faiss_cache)
 

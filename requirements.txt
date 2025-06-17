@@ -183,7 +183,6 @@ python-multipart==0.0.20
 pytz==2025.2
 PyYAML==6.0.2
 pyzmq==26.4.0
-quantile-python==1.1
 ray
 referencing==0.36.2
 regex==2024.11.6
