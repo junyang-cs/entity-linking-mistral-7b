@@ -14,7 +14,7 @@ FROM python:${PYTHON_VERSION}-slim as base
 RUN apt-get update && apt-get install -y wget tar git && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /workspace
-copy requirements.txt .
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 

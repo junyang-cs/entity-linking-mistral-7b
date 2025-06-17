@@ -4,6 +4,7 @@ set -e
 base_model_dir="assets/models/mistralai_Mistral-7B-Instruct-v0.2"
 sentence_transformers_dir="assets/models/sentence-transformers_all-MiniLM-L12-v2"
 
+
 python faiss_db_preparation.py \
        --notes-path data/dataset/train_notes.csv \
        --annotations-path data/dataset/train_annotations.csv \
