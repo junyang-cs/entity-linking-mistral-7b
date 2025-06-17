@@ -8,7 +8,7 @@ import warnings
 import pandas as pd
 import torch
 import transformers
-import wandb
+# import wandb
 from datasets import Dataset
 from langchain import PromptTemplate
 from peft import LoraConfig, get_peft_model
@@ -27,7 +27,7 @@ pd.options.display.max_columns = 500
 ppsetup = pprint.PrettyPrinter(indent=4)
 pp = ppsetup.pprint
 tqdm.pandas()
-wandb.init(mode="disabled")
+# wandb.init(mode="disabled")
 warnings.filterwarnings("ignore")
 
 # print(torch.cuda.current_device())
